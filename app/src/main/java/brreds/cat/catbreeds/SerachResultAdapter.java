@@ -26,13 +26,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SerachResultAdapter extends RecyclerView.Adapter<SerachResultAdapter.SearchResultViewHolder> {
 
-    private Cat[] data;
+    private List<Cat> data;
 
-    public SerachResultAdapter(Cat[] data){
+    public SerachResultAdapter(List<Cat> data){
         this.data = data;
     }
 
@@ -47,10 +48,10 @@ public class SerachResultAdapter extends RecyclerView.Adapter<SerachResultAdapte
 
     @Override
     public void onBindViewHolder(@NonNull SearchResultViewHolder  holder, final int position) {
-        String title = data[position].getName();
+        String title = data.get(position).getName();
         holder.txttitle.setText(title);
 
-        String url = "https://api.thecatapi.com/v1/images/search?breed_id="+data[position].getId()+"&size=small";
+        String url = "https://api.thecatapi.com/v1/images/search?breed_id="+data.get(position).getId()+"&size=small";
 //        final Context context = holder.imgicon.getContext();
         final SearchResultViewHolder  hold = holder;
         StringRequest request =  new StringRequest(Request.Method.GET, url,
@@ -71,15 +72,9 @@ public class SerachResultAdapter extends RecyclerView.Adapter<SerachResultAdapte
                             @Override
                             public void onClick(View view) {
                                 Intent intent = new Intent(hold.imgicon.getContext(),CatDetails.class);
-                                intent.putExtra("name",data[position].getName());
-                                intent.putExtra("description",data[position].getDescription());
-                                Weight w= data[position].getWeight();
-                                intent.putExtra("weight",w.getImperial());
-                                intent.putExtra("temprament",data[position].getTemperament());
-                                intent.putExtra("origin",data[position].getOrigin());
-                                intent.putExtra("lifespan",data[position].getLifeSpan());
-                                intent.putExtra("wikipedia",data[position].getWikipediaUrl());
-                                intent.putExtra("dogfriend",data[position].getDogFriendly().toString());
+                                Gson gson  = new Gson();
+
+                                intent.putExtra("data",gson.toJson(data.get(position)));
                                 intent.putExtra("imgurl",catData.length==0?"no":catData[0].getUrl());
                                 hold.imgicon.getContext().startActivity(intent);
                             }
@@ -111,7 +106,7 @@ public class SerachResultAdapter extends RecyclerView.Adapter<SerachResultAdapte
 
     @Override
     public int getItemCount() {
-        return data.length;
+        return data.size();
     }
 
     public class SearchResultViewHolder extends RecyclerView.ViewHolder{

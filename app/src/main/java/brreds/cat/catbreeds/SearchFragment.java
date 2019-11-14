@@ -26,8 +26,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SearchFragment extends Fragment {
@@ -59,7 +63,8 @@ public class SearchFragment extends Fragment {
                                         Log.d("Response", response);
                                         GsonBuilder gsonBuilder = new GsonBuilder();
                                         Gson gson = gsonBuilder.create();
-                                        Cat[] cats = gson.fromJson(response,Cat[].class);
+                                        Type type = new TypeToken<List<Cat>>(){}.getType();
+                                        List<Cat> cats = gson.fromJson(response,type);
 
                                         search_results.setAdapter( new SerachResultAdapter(cats));
                                     }
