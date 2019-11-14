@@ -47,7 +47,6 @@ public class SearchFragment extends Fragment {
                         EditText search_input = view.findViewById(R.id.search_input);
                         String query = search_input.getText().toString();
                         Log.i("text filed value",query);
-//                        Log.i("isclicked",text.getText().toString());
                         final  RecyclerView search_results = view.findViewById(R.id.search_results);
                         search_results.setLayoutManager(new LinearLayoutManager(getContext()));
                         Log.d("url",url+query);
@@ -61,6 +60,7 @@ public class SearchFragment extends Fragment {
                                         GsonBuilder gsonBuilder = new GsonBuilder();
                                         Gson gson = gsonBuilder.create();
                                         Cat[] cats = gson.fromJson(response,Cat[].class);
+
                                         search_results.setAdapter( new SerachResultAdapter(cats));
                                     }
                                 },

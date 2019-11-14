@@ -25,8 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void ChangeFragment(View view){
+        Log.i("isChange","yes");
         Fragment fragment;
-        if(view == findViewById(R.id.search_button)){
+        if(view == findViewById(R.id.search_button1)){
             fragment = new  SearchFragment();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
